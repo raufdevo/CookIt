@@ -21,6 +21,7 @@ public interface MealService {
       return mealDto;
     };
 
+    Meal getMealByIdForCurrentUser(Long mealId);
     void addMealForCurrentUser(String recipeCode, Date date);
     void deleteMealForCurrentUser(Long mealId);
     void editMealForCurrentUser(Long mealId, String recipeCode, Date date);
