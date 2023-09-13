@@ -73,7 +73,7 @@ public class MealServiceMap implements MealService {
     }
 
     @Override
-    public Meal getMealForCurrentUser(Long mealId) {
+    public Meal getMealByIdForCurrentUser(Long mealId) {
         User currentUser = this.userService.getCurrentUser();
 
         return currentUser.getMeals().stream().filter(meal -> meal.getId().equals(mealId)).findAny().orElseThrow(() -> new BadRequestRuntimeException(Constants.MEAL_NOT_FOUND));

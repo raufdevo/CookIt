@@ -26,5 +26,4 @@ public interface MealService {
     void deleteMealForCurrentUser(Long mealId);
     void editMealForCurrentUser(Long mealId, String recipeCode, Date date);
 
-    Meal getMealForCurrentUser(Long mealId);
 }
