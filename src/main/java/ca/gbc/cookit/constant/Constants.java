@@ -1,6 +1,6 @@
 package ca.gbc.cookit.constant;
 
-public class constants {
+public class Constants {
     public static final String UNKNOWN_ERROR = "error.unknown";
 
     public static final String PERMISSION_DENIED = "permission_denied";

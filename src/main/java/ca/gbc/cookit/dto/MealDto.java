@@ -1,57 +1,31 @@
 package ca.gbc.cookit.dto;
 
-import ca.gbc.cookit.model.Recipe;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
-
-/**
- * DTO for {@link ca.gbc.cookit.model.Meal}
- */
-public class MealDto implements Serializable {
-    private final Long id;
-    private final Recipe recipe;
-    private final Date date;
-
-    public MealDto(Long id, Recipe recipe, Date date) {
-        this.id = id;
-        this.recipe = recipe;
-        this.date = date;
-    }
+public class MealDto {
+    private Long id;
+    private String recipeCode;
+    private String formattedDate;
 
     public Long getId() {
         return id;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public String getRecipeCode() {
+        return recipeCode;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MealDto entity = (MealDto) o;
-        return Objects.equals(this.id, entity.id) &&
-                Objects.equals(this.recipe, entity.recipe) &&
-                Objects.equals(this.date, entity.date);
+    public void setRecipeCode(String recipeCode) {
+        this.recipeCode = recipeCode;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, recipe, date);
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "recipe = " + recipe + ", " +
-                "date = " + date + ")";
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
     }
 }
