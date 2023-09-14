@@ -1,6 +1,17 @@
 package ca.gbc.cookit.constant;
 
+/*********************************************************************************
+ * Project: Recipe by The Warriors
+ * Assignment: assignment 2
+ * Author(s):
+ * Rauf Anata - 101220889, Ostap Sulyk - 101186901,
+ * Veronika Ushynska - 101339738, Yaroslav Yatsyk - 101343887
+ * Description: for global usage
+ *********************************************************************************/
+
+
 public class Constants {
+
     public static final String UNKNOWN_ERROR = "error.unknown";
 
     public static final String PERMISSION_DENIED = "permission_denied";

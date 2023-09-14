@@ -1,10 +1,11 @@
 package ca.gbc.cookit.controller;
 
+
 import ca.gbc.cookit.authentication.CustomUserDetails;
 import ca.gbc.cookit.constant.Constants;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.User;
 import ca.gbc.cookit.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,13 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ca.gbc.cookit.exceptions.BadRequestRuntimeException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 @Controller
 public class AuthController {
+
     private final Environment environment;
     private final UserService userService;
 
@@ -29,15 +34,16 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String register(){
-        return "auth/register";
+    public String register() {
+        return "authentication/register";
     }
 
-    @PostMapping
-    public String register(Model model, HttpServletResponse httpServletResponse, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password, @RequestParam(value = "question", required = false) String question, @RequestParam(value = "answer", required = false) String answer){
+    @PostMapping("/register")
+    public String register(Model model, HttpServletResponse httpServletResponse, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password, @RequestParam(value = "question", required = false) String question, @RequestParam(value = "answer", required = false) String answer) {
+
         List<String> errors = new ArrayList<>();
 
-        if (name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             String message = this.environment.getProperty(Constants.FORM_REGISTER_EMPTY_NAME);
             errors.add(message);
         }
@@ -64,7 +70,7 @@ public class AuthController {
         }
         if (errors.isEmpty()) {
             try {
-                this.userService.addUser(name, username, password, question, answer);
+                this.userService.register(name, username, password, question, answer);
                 httpServletResponse.setHeader("Location", "/login");
                 httpServletResponse.setStatus(302);
             } catch (BadRequestRuntimeException badRequestRuntimeException) {
@@ -75,21 +81,32 @@ public class AuthController {
 
         model.addAttribute("errors", errors);
 
-        return "auth/register";
+        return "authentication/register";
     }
 
-    @GetMapping("/login" )
-    public String login(@RequestParam(value = "error", required = false) String error, Model model){
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error", required = false) String error, Model model) {
         if (error != null) {
             model.addAttribute("loginError", true);
 
             String message = this.environment.getProperty(Constants.FORM_LOGIN_INVALID_USERNAME_PASSWORD);
             model.addAttribute("loginErrorMessage", message);
         }
-        return "auth/login";
+        return "authentication/login";
     }
+
+    @GetMapping("/fp/forgot")
+    public String forgotPassword(Model model, @RequestParam(value = "error", defaultValue = "") String error) {
+        if (error.equals("1")) {
+            String msg = environment.getProperty(Constants.USER_NOT_FOUND);
+            model.addAttribute("error", msg);
+        }
+
+        return "authentication/forgot_password_get_username";
+    }
+
     @GetMapping("/fp/question")
-    public String forgotPassword(Model model, HttpServletResponse httpServletResponse, @RequestParam(value = "username") String username, @RequestParam(value = "error", defaultValue = "") String error) {
+    public String askUserQuestion(Model model, HttpServletResponse httpServletResponse, @RequestParam(value = "username") String username, @RequestParam(value = "error", defaultValue = "") String error) {
         if (error.equals("1")) {
             String msg = environment.getProperty(Constants.PERMISSION_DENIED);
             model.addAttribute("error", msg);
@@ -107,7 +124,7 @@ public class AuthController {
             }
         }
 
-        return "auth/forgot_password_question";
+        return "authentication/forgot_password_question";
     }
 
     @PostMapping("/fp/answer")
@@ -130,7 +147,7 @@ public class AuthController {
     @GetMapping("/reset-password")
     public String resetPassword() {
 
-        return "auth/forgot_password_reset_password";
+        return "authentication/forgot_password_reset_password";
 
     }
 

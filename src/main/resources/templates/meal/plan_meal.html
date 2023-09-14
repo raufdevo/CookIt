@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan Meal</title>
+</head>
+<body>
+
+<br>
+<h2>Plan Meal</h2>
+<div>
+    <p th:each="err : ${errors}" th:text="${err}"><p/>
+</div>
+<nav class="top-nav">
+    <a href="/">BACK</a><br>
+</nav>
+<form action="/meal/plan" method="post">
+    <div class="form-group">
+    <label for="recipe_code">Recipe code:</label>
+    <input id="recipe_code" name="recipe_code" type="text" required autofocus>
+    </div>
+    <div class="form-group">
+    <label for="date">Date:</label>
+    <input id="date" name="date" type="datetime-local"  required>
+    </div>
+    <input type="submit" value="SUBMIT" class="button">
+</form>
+</body>
+<footer th:footer>
+    <p>&copy; 2023 Rauf Ismayilzada</p>
+</footer>
+<style>
+    body {
+        background: url("https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Engravers MT', Serif;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+        color: aliceblue;
+        text-decoration: none;
+    }
+
+    h2 {
+        color: #ffffff;
+        text-align: center;
+        font-weight: 300;
+    }
+
+    form {
+        width: 380px;
+        margin: 5em auto;
+        padding: 3em 2em 2em 2em;
+        background: rgba(220, 26, 26, 0.12);
+        border-radius: 15px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    input {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        -webkit-appearance: none;
+        display: block;
+        background: rgba(223, 227, 187, 0.41);
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        width: 100%;
+        border: none;
+        border-radius: 15px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .button {
+
+        margin: .3em 0 1em 0;
+        width: 100%;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        background: rgba(37, 5, 13, 0.37);
+        letter-spacing: 3px;
+        border-radius: 15px;
+    }
+
+    /* Label */
+
+    label {
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        font-size: 18px;
+        font-weight: normal;
+        transition: all 0.2s ease;
+        padding: 10px 10px 35px 5px;
+    }
+
+    .top-nav {
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0px;
+        background-color: rgb(21, 16, 20);
+        left: 0px;
+        right: 10px;
+        margin-bottom: 0px;
+        text-align: right;
+        border-radius: 15px;
+    }
+
+</style>
+</html>

@@ -1,12 +1,17 @@
 package ca.gbc.cookit.authentication;
 
+
+import ca.gbc.cookit.constant.Constants;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.User;
 import ca.gbc.cookit.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
@@ -17,14 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User userByUsername = this.userService.findByUsername(username);
-
-        if (userByUsername.getUsername().equals(username)) {
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        try {
+            User userByUsername = this.userService.findByUsername(s);
             return new CustomUserDetails(userByUsername);
-        } else {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+        } catch (BadRequestRuntimeException badRequestRuntimeException) {
+            if (badRequestRuntimeException.getMessageCode().equals(Constants.USER_NOT_FOUND)) {
+                throw new UsernameNotFoundException("user not found with username: " + s);
+            } else {
+                throw badRequestRuntimeException;
+            }
         }
     }
 }

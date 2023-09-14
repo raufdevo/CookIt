@@ -2,27 +2,31 @@ package ca.gbc.cookit.authentication;
 
 import ca.gbc.cookit.model.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+
+
+
 
 public class CustomUserDetails implements UserDetails {
 
     private User user;
 
     public CustomUserDetails(User user) {
+
         this.user = user;
     }
 
-    public User getUser(){
+    public User getUser() {
+
         return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        return new ArrayList<>();
     }
 
     @Override
@@ -54,4 +58,5 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

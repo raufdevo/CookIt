@@ -1,12 +1,11 @@
-package ca.gbc.cookit.service.maps;
+package ca.gbc.cookit.service.map;
 
 import ca.gbc.cookit.authentication.CustomUserDetails;
 import ca.gbc.cookit.constant.Constants;
-import ca.gbc.cookit.exceptions.BadRequestRuntimeException;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.Ingredient;
 import ca.gbc.cookit.model.Recipe;
 import ca.gbc.cookit.model.User;
-import ca.gbc.cookit.repository.IngredientRepository;
 import ca.gbc.cookit.repository.UserRepository;
 import ca.gbc.cookit.service.IngredientService;
 import ca.gbc.cookit.service.RecipeService;
@@ -14,36 +13,38 @@ import ca.gbc.cookit.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+
+
+
 @Service
 public class UserServiceMap implements UserService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
 
-    public UserServiceMap(PasswordEncoder passwordEncoder, UserRepository userRepository, RecipeService recipeService, IngredientService ingredientService) {
+    public UserServiceMap(UserRepository userRepository, PasswordEncoder passwordEncoder, RecipeService recipeService, IngredientService ingredientService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
     }
 
-
     @Override
-    public User addUser(String name, String username, String password, String question, String answer) {
+    public User register(String name, String username, String plainPassword, String question, String answer) {
         Optional<User> userByUsernameOpt = this.userRepository.findByUsername(username);
 
         if (userByUsernameOpt.isPresent()) {
             throw new BadRequestRuntimeException(Constants.USER_USERNAME_DUPLICATE);
         }
-        String encodedPassword = this.passwordEncoder.encode(password);
+        String encodedPassword = this.passwordEncoder.encode(plainPassword);
 
         User newUser = new User();
         newUser.setName(name);
@@ -56,13 +57,6 @@ public class UserServiceMap implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        Optional<User> userByUsernameOpt = this.userRepository.findByUsername(username);
-
-        return userByUsernameOpt.orElseThrow(() -> new BadRequestRuntimeException(Constants.USER_NOT_FOUND));
-    }
-
-    @Override
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
@@ -70,31 +64,15 @@ public class UserServiceMap implements UserService {
     }
 
     @Override
-    public void addRecipeForCurrentUser(String name, String recipeCode, String description) {
-        try {
-            this.recipeService.findRecipeByCode(recipeCode);
-            throw new BadRequestRuntimeException(Constants.RECIPE_CODE_DUPLICATE);
-        } catch (BadRequestRuntimeException badRequestRuntimeException) {
-            if (!badRequestRuntimeException.getMessageCode().equals(Constants.RECIPE_NOT_FOUND)) {
-                throw badRequestRuntimeException;
-            }
-        }
+    public User findByUsername(String username) {
+        Optional<User> userByUsernameOpt = this.userRepository.findByUsername(username);
 
-        Recipe recipe = new Recipe();
-        recipe.setCreatedDate(new Date());
-        recipe.setName(name);
-        recipe.setCode(recipeCode);
-        recipe.setDescription(description);
-
-        User currentUser = this.getCurrentUser();
-
-        currentUser.getRecipes().add(recipe);
-
-        this.userRepository.save(currentUser);
+        return userByUsernameOpt.orElseThrow(() -> new BadRequestRuntimeException(Constants.USER_NOT_FOUND));
     }
 
     @Override
-    public void updateCurrentUser(String newUsername, String newName) {
+    @Transactional
+    public void updateCurrentUser(String newName, String newUsername) {
         User currentUser = this.getCurrentUser();
 
         if (!newUsername.equals(currentUser.getUsername())) {
@@ -116,33 +94,32 @@ public class UserServiceMap implements UserService {
     }
 
     @Override
-    public void addRecipeAsFavoriteForCurrentUser(String recipeCode) {
-        User currentUser = this.getCurrentUser();
+    @Transactional
+    public void resetPasswordForCurrentUser(String newPassword) {
+        User user = this.getCurrentUser();
+        String encodedPassword = this.passwordEncoder.encode(newPassword);
 
-        if (currentUser.getFavoriteRecipes().stream().map(Recipe::getCode).anyMatch(Predicate.isEqual(recipeCode))) {
-            return;
-        }
-
-        Recipe recipe = this.recipeService.findRecipeByCode(recipeCode);
-        currentUser.getFavoriteRecipes().add(recipe);
-
-        this.userRepository.save(currentUser);
+        user.setPassword(encodedPassword);
     }
 
+
     @Override
-    public void addIngredientToBasketForCurrentUser(Long ingredientId) {
+    @Transactional
+    public void addToBasketForCurrentUser(Long ingredientId) {
+
         Ingredient ingredient = this.ingredientService.findById(ingredientId);
         User currentUser = this.getCurrentUser();
 
-        currentUser.getBasket().add(ingredient);
+        currentUser.getAddedIngredients().add(ingredient);
 
         this.userRepository.save(currentUser);
     }
 
     @Override
-    public void removeIngredientFromBasketForCurrentUser(Long ingredientId) {
+    @Transactional
+    public void removeFromBasketForCurrentUser(Long ingredientId) {
         User currentUser = this.getCurrentUser();
-        List<Ingredient> basket = currentUser.getBasket();
+        List<Ingredient> basket = currentUser.getAddedIngredients();
         for (Ingredient item : basket) {
             if (item.getId().equals(ingredientId)) {
                 basket.remove(item);
@@ -154,19 +131,53 @@ public class UserServiceMap implements UserService {
     }
 
     @Override
-    public void removeIngredientFromAllIngredientLists(Long ingredientId) {
+    @Transactional
+    public void addRecipeAsFavoriteForCurrentUser(String recipeCode) {
+        User currentUser = this.getCurrentUser();
+
+        if (currentUser.getFavoriteRecipes().stream().map(Recipe::getCode).anyMatch(Predicate.isEqual(recipeCode))) {
+            return;
+        }
+
+        Recipe recipe = this.recipeService.findByCode(recipeCode);
+        currentUser.getFavoriteRecipes().add(recipe);
+
+        this.userRepository.save(currentUser);
+    }
+
+    @Override
+    @Transactional
+    public void addRecipeForCurrentUser(String name, String code, String description) {
+        try {
+            this.recipeService.findByCode(code);
+            throw new BadRequestRuntimeException(Constants.RECIPE_CODE_DUPLICATE);
+        } catch (BadRequestRuntimeException badRequestRuntimeException) {
+            if (!badRequestRuntimeException.getMessageCode().equals(Constants.RECIPE_NOT_FOUND)) {
+                throw badRequestRuntimeException;
+            }
+        }
+
+        Recipe recipe = new Recipe();
+        recipe.setCreatedDate(new Date());
+        recipe.setName(name);
+        recipe.setCode(code);
+        recipe.setDescription(description);
+
+        User currentUser = this.getCurrentUser();
+
+        currentUser.getRecipes().add(recipe);
+
+        this.userRepository.save(currentUser);
+    }
+
+    @Override
+    @Transactional
+    public void removeFromAllIngredientLists(Long ingredientId) {
         this.userRepository.findAll().forEach(
-                user -> user.getBasket().removeIf(
+                user -> user.getAddedIngredients().removeIf(
                         ingredient -> ingredient.getId().equals(ingredientId)
                 )
         );
     }
 
-    @Override
-    public void resetPasswordForCurrentUser(String newPassword) {
-        User user = this.getCurrentUser();
-        String encodedPassword = this.passwordEncoder.encode(newPassword);
-
-        user.setPassword(encodedPassword);
-    }
 }

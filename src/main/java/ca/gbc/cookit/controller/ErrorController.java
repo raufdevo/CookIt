@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ErrorController {
+
     private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     private final Environment environment;
@@ -38,4 +39,5 @@ public class ErrorController {
         model.addAttribute("errorMessage", errorMessage);
         return "error";
     }
+
 }

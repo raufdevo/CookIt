@@ -1,14 +1,13 @@
 package ca.gbc.cookit.controller;
 
+
 import ca.gbc.cookit.constant.Constants;
 import ca.gbc.cookit.dto.MealDto;
-import ca.gbc.cookit.exceptions.BadRequestRuntimeException;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.Meal;
 import ca.gbc.cookit.model.User;
 import ca.gbc.cookit.service.MealService;
 import ca.gbc.cookit.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,7 +122,7 @@ public class ProfileController {
     @GetMapping("/profile/basket")
     public String profileBasket(Model model) {
         User currentUser = this.userService.getCurrentUser();
-        model.addAttribute("basket", currentUser.getBasket());
+        model.addAttribute("basket", currentUser.getAddedIngredients());
         return "profile/basket";
     }
 
@@ -129,7 +130,7 @@ public class ProfileController {
     @GetMapping("/profile/add-to-basket/{ingredientId}")
     public void addToBasket(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest, @PathVariable("ingredientId") Long ingredientId) {
         try {
-            this.userService.addIngredientToBasketForCurrentUser(ingredientId);
+            this.userService.addToBasketForCurrentUser(ingredientId);
             httpServletResponse.setHeader("Location", httpServletRequest.getHeader(HttpHeaders.REFERER));
             httpServletResponse.setStatus(302);
         } catch (BadRequestRuntimeException ignored) {
@@ -139,7 +140,7 @@ public class ProfileController {
     @GetMapping("/profile/remove-from-basket/{ingredientId}")
     public void removeFromBasket(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest, @PathVariable("ingredientId") Long ingredientId) {
         try {
-            this.userService.removeIngredientFromBasketForCurrentUser(ingredientId);
+            this.userService.removeFromBasketForCurrentUser(ingredientId);
             httpServletResponse.setHeader("Location", httpServletRequest.getHeader(HttpHeaders.REFERER));
             httpServletResponse.setStatus(302);
         } catch (BadRequestRuntimeException ignored) {

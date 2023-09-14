@@ -1,0 +1,94 @@
+<!DOCTYPE html >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymleaf.org "
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CookIt Home Page</title>
+</head>
+<body>
+
+<div  sec:authorize="!isAuthenticated()" class="topDiv">
+    <h1 th:header >Welcome To CookIt!</h1>
+        <a href="/register">Sign Up</a><br>
+        <a href="/login">Sign In</a>
+    <br>
+</div>
+<h1 th:header sec:authorize="isAuthenticated()">CookIt - 'Cook what you can't!'</h1>
+<div class="container" sec:authorize="isAuthenticated()">
+    <ul>
+        <li><a href="/profile" style="text-decoration: none">Profile</a></li>
+        <li><a href="/recipes" style="text-decoration: none">Recipes</a></li>
+        <li><a href="/add-recipe" style="text-decoration: none">Add Recipe</a></li>
+        <li><a href="/add-ingredient" style="text-decoration: none">Add Ingredient</a></li>
+        <li><a href="/search-recipe" style="text-decoration: none">Search Recipe</a></li>
+        <li><a href="/meal/plan" style="text-decoration: none">Plan Meal</a></li>
+        <li><a href="/logout" style="text-decoration: none">Logout</a></li>
+    </ul>
+</div>
+</body>
+<footer th:footer>
+    <p>&copy; 2023 Rauf Ismayilzada</p>
+</footer>
+<style>
+    body {
+        background: url("https://images.pexels.com/photos/3499599/pexels-photo-3499599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Engravers MT', Serif;
+        font-size: 12pt;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        font-weight: 300;
+    }
+
+    a {
+        color: aliceblue;
+        text-decoration: none;
+    }
+    h1{
+        text-align: center;
+        font-weight: 300;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        font-size: 35px;
+    }
+    .topDiv{
+        font-size: 30px;
+    }
+
+    div {
+        border-radius: 15px;
+        background-color: rgba(83, 96, 91, 0.45);
+        margin: 10px;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding: 10px 0;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0px;
+        background-color: rgb(20, 18, 21);
+        left: 0px;
+        right: 0px;
+        margin: 5px 10px;
+        text-align: right;
+        border-radius: 15px;
+    }
+
+    li {
+        padding: 5px;
+        text-align: justify;
+        list-style: none;
+    }
+</style>
+</html>

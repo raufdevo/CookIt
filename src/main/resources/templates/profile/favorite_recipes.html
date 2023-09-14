@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Favorite Recipes</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+</head>
+<body>
+<h2>Favorite Recipes:</h2>
+<nav class="top-nav">
+    <a href="../">Back</a>
+</nav>
+<form action="">
+    <div class="container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="headers col col-1">Code:</div>
+                <div class="headers col col-2">Name:</div>
+                <div class="headers col col-3">Instruction:</div>
+                <div class="headers col col-4">Created Date:</div>
+                <div class="headers col col-5">Ingredients:</div>
+            </li>
+            <li class="table-row" th:each="recipe: ${recipes}">
+                <div class="col col-1"><p th:text="${recipe.code}"/></div>
+                <div class="col col-2"><p th:text="${recipe.name}"/></div>
+                <div class="col col-3"><p th:text="${recipe.description}"></p></div>
+                <div class="col col-4"><p th:text="${recipe.createdDate}"></p></div>
+                <div class="col col-5"><a th:href="@{'/recipe/' + ${recipe.code} + '/ingredients'}"><i class='detail fas fa-book'></i></a></div>
+            </li>
+        </ul>
+    </div>
+</form>
+
+</body>
+<footer th:footer>
+    <p>&copy; 2023 Rauf Ismayilzada</p>
+</footer>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    h2 {
+        color: #ffffff;
+        text-align: center;
+        font-weight: 300;
+        background: rgba(12, 38, 27, 0.3);
+    }
+
+    a {
+        color: aliceblue;
+        text-decoration: none;
+    }
+
+    .top-nav {
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0px;
+        background-color: rgba(70, 49, 52, 0.3);
+        left: 0px;
+        right: 10px;
+        margin-bottom: 0px;
+        text-align: right;
+        border-radius: 15px;
+    }
+
+    .headers {
+        color: #ffffff;
+    }
+    i{
+        font-size: 30px;
+    }
+
+    body {
+        background: url("https://wallpaperaccess.com/full/4901718.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Engravers MT', Serif;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    li {
+        border-radius: 3px;
+        padding: 25px 30px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .table-header {
+        background-color: rgba(149, 165, 166, 0.47);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        border-radius: 15px;
+
+    }
+
+    .table-row {
+        background-color: rgba(21, 16, 20, 0.58);
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+    }
+
+    .col-1 {
+        flex-basis: 15%;
+    }
+
+    .col-2 {
+        flex-basis: 20%;
+    }
+
+    .col-3 {
+        flex-basis: 10%;
+    }
+
+    .col-4 {
+        flex-basis: 20%;
+    }
+
+    .col-5 {
+        flex-basis: 8%;
+    }
+    .detail {
+        color: rgba(26, 207, 213, 0.9);
+        text-shadow: rgba(21, 16, 20, 0.57) 4px 4px 4px;
+    }
+
+
+    @media all and (max-width: 767px) {
+        .table-header {
+            display: none;
+        }
+
+        .table-row {
+
+        }
+
+        li {
+            display: block;
+        }
+
+        .col {
+
+            flex-basis: 100%;
+
+        }
+
+        .col {
+            display: flex;
+            padding: 10px 0;
+        }
+
+        .col:before {
+            color: #6C7A89;
+            padding-right: 10px;
+            flex-basis: 50%;
+            text-align: right;
+        }
+    }
+</style>
+</html>

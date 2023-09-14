@@ -1,21 +1,21 @@
 package ca.gbc.cookit.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.Date;
 
+
+
 @Entity
-@Table(name = "meal")
+@Table(name = "meal_table")
 public class Meal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne(optional = false)
     private Recipe recipe;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
 

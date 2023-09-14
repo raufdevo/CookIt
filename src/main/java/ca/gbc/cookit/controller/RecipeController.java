@@ -1,13 +1,13 @@
 package ca.gbc.cookit.controller;
 
+
 import ca.gbc.cookit.constant.Constants;
-import ca.gbc.cookit.exceptions.BadRequestRuntimeException;
-import ca.gbc.cookit.model.Recipe;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.Ingredient;
+import ca.gbc.cookit.model.Recipe;
 import ca.gbc.cookit.service.IngredientService;
 import ca.gbc.cookit.service.RecipeService;
 import ca.gbc.cookit.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class RecipeController {
     @GetMapping("/recipes")
     public String getAllRecipes(Model model) {
 
-        List<Recipe> recipes = this.recipeService.findAllRecipes();
+        List<Recipe> recipes = this.recipeService.findAll();
 
         model.addAttribute("recipes", recipes);
 
@@ -86,7 +87,7 @@ public class RecipeController {
         if (query == null || query.isEmpty()) {
             model.addAttribute("result", false);
         } else {
-            List<Recipe> recipes = this.recipeService.findRecipeByName(query);
+            List<Recipe> recipes = this.recipeService.findByName(query);
             model.addAttribute("recipes", recipes);
             model.addAttribute("result", true);
         }
@@ -137,7 +138,7 @@ public class RecipeController {
     @GetMapping("/recipe/{recipeCode}/ingredients")
     public String getIngredients(Model model, @PathVariable("recipeCode") String recipeCode) {
 
-        Recipe recipe = this.recipeService.findRecipeByCode(recipeCode);
+        Recipe recipe = this.recipeService.findByCode(recipeCode);
         model.addAttribute("ingredients", recipe.getIngredients());
         model.addAttribute("recipeCode", recipeCode);
         return "recipe/ingredients";
@@ -195,4 +196,3 @@ public class RecipeController {
     }
 
 }
-

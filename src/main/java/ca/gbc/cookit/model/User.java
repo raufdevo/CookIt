@@ -1,24 +1,29 @@
 package ca.gbc.cookit.model;
 
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Entity
-@Table(name = "user")
+@Table(name = "user_table")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     private String question;
@@ -82,18 +87,22 @@ public class User {
     }
 
     public void setAnswer(String answer) {
+
         this.answer = answer;
     }
 
     public List<Recipe> getRecipes() {
+
         return recipes;
     }
 
     public void setRecipes(List<Recipe> recipes) {
+
         this.recipes = recipes;
     }
 
     public List<Meal> getMeals() {
+
         return meals;
     }
 
@@ -101,19 +110,21 @@ public class User {
         this.meals = meals;
     }
 
-    public List<Ingredient> getBasket() {
-        return basket;
-    }
-
-    public void setBasket(List<Ingredient> basket) {
-        this.basket = basket;
-    }
-
     public Set<Recipe> getFavoriteRecipes() {
+
         return favoriteRecipes;
     }
 
     public void setFavoriteRecipes(Set<Recipe> favoriteRecipes) {
         this.favoriteRecipes = favoriteRecipes;
+    }
+
+    public List<Ingredient> getAddedIngredients() {
+        return basket;
+    }
+
+    public void setBasket(List<Ingredient> basket) {
+
+        this.basket = basket;
     }
 }

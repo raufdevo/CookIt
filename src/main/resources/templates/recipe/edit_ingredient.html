@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Ingredient</title>
+</head>
+<body>
+<h1>Edit Ingredient</h1>
+<div>
+    <p th:each="err : ${errors}" th:text="${err}"></p>
+</div>
+
+<nav class="top-nav">
+    <a href="../">Back</a><br>
+</nav>
+
+<form th:action="@{'/recipe/' + ${recipeCode} + '/ingredients/' + ${ingredient.id} + '/edit'}" method="post">
+    <div class="form-group">
+        <label for="recipe_code">Recipe Code:</label>
+        <input id="recipe_code" name="recipe_code" type="text" th:value="${recipeCode}" required disabled>
+    </div>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" th:value="${ingredient.name}" required autofocus>
+    </div>
+    <div class="form-group">
+        <label for="price"><b>Price:</b></label>
+        <input id="price" name="price" type="number" step="0.01" th:value="${ingredient.price}" required>
+    </div>
+    <input type="submit" value="SUBMIT" class="button">
+</form>
+</body>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    hgroup {
+        text-align: center;
+        margin-top: 4em;
+    }
+
+
+    h1 {
+        color: #ffffff;
+        text-align: center;
+        font-weight: 300;
+        background: rgba(12, 38, 27, 0.3);
+    }
+
+    div {
+        background: rgba(250, 250, 250, 0.04);
+        border-radius: 15px;
+    }
+
+    form {
+        width: 380px;
+        margin: 4em auto;
+        padding: 3em 2em 2em 2em;
+        background: rgba(250, 250, 250, 0.04);
+        border-radius: 15px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 45px;
+    }
+
+    input {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        -webkit-appearance: none;
+        display: block;
+        background: rgba(223, 227, 187, 0.41);
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        width: 100%;
+        border: none;
+        border-radius: 15px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+
+    /* Label */
+
+    label {
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        font-size: 18px;
+        font-weight: normal;
+        pointer-events: none;
+        left: 5px;
+        top: 10px;
+        transition: all 0.2s ease;
+    }
+
+
+    input:focus ~ .bar:before,
+    input:focus ~ .bar:after {
+        width: 50%;
+    }
+
+
+    input:focus ~ .highlight {
+        animation: inputHighlighter 0.3s ease;
+    }
+
+
+    /* Animations */
+
+    @keyframes inputHighlighter {
+        from {
+            background: #4a89dc;
+        }
+        to {
+            width: 0;
+            background: transparent;
+        }
+    }
+
+    /* Button */
+
+    .button {
+
+        margin: .3em 0 1em 0;
+        width: 100%;
+
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        background: rgba(14, 21, 13, 0.37);
+        letter-spacing: 3px;
+        border-radius: 15px;
+    }
+
+    /* Ripples animation */
+
+    @keyframes ripples {
+        0% {
+            opacity: 0;
+        }
+        25% {
+            opacity: 1;
+        }
+        100% {
+            width: 200%;
+            padding-bottom: 200%;
+            opacity: 0;
+        }
+    }
+
+    body {
+        background: url("https://wallpaperaccess.com/full/4901718.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Engravers MT', Serif;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+        color: aliceblue;
+        text-decoration: none;
+    }
+
+
+    .top-nav {
+        text-align: center;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0px;
+        background-color: rgba(70, 49, 52, 0.3);
+        left: 0px;
+        right: 10px;
+        margin-bottom: 0px;
+        text-align: right;
+        border-radius: 15px;
+    }
+
+</style>
+
+<script>
+    $(window, document, undefined).ready(function () {
+
+        var $ripples = $('.ripples');
+
+        $ripples.on('click.Ripples', function (e) {
+
+            var $this = $(this);
+            var $offset = $this.parent().offset();
+            var $circle = $this.find('.ripplesCircle');
+
+            var x = e.pageX - $offset.left;
+            var y = e.pageY - $offset.top;
+
+            $circle.css({
+                top: y + 'px',
+                left: x + 'px'
+            });
+
+            $this.addClass('is-active');
+
+        });
+
+        $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function (e) {
+            $(this).removeClass('is-active');
+        });
+
+    });
+
+    $('input').focus(function () {
+        $(this).prev().addClass('stylee');
+    }).blur(function () {
+        if ($(this).val()) {
+            $(this).prev().addClass('stylee');
+        } else {
+            $(this).prev().removeClass('stylee');
+        }
+    });
+</script>
+</html>

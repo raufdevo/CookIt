@@ -1,7 +1,8 @@
-package ca.gbc.cookit.service.maps;
+package ca.gbc.cookit.service.map;
+
 
 import ca.gbc.cookit.constant.Constants;
-import ca.gbc.cookit.exceptions.BadRequestRuntimeException;
+import ca.gbc.cookit.exception.BadRequestRuntimeException;
 import ca.gbc.cookit.model.Meal;
 import ca.gbc.cookit.model.Recipe;
 import ca.gbc.cookit.model.User;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 public class MealServiceMap implements MealService {
+
     private final UserService userService;
     private final RecipeService recipeService;
 
@@ -24,12 +26,10 @@ public class MealServiceMap implements MealService {
         this.recipeService = recipeService;
     }
 
-
-
     @Override
     @Transactional
     public void addMealForCurrentUser(String recipeCode, Date date) {
-        Recipe recipeByCode = this.recipeService.findRecipeByCode(recipeCode);
+        Recipe recipeByCode = this.recipeService.findByCode(recipeCode);
         User currentUser = this.userService.getCurrentUser();
 
         Meal meal = new Meal();
@@ -45,6 +45,7 @@ public class MealServiceMap implements MealService {
     @Override
     @Transactional
     public void deleteMealForCurrentUser(Long mealId) {
+
         User currentUser = this.userService.getCurrentUser();
         boolean result = currentUser.getMeals().removeIf(meal -> meal.getId().equals(mealId));
 
@@ -54,30 +55,27 @@ public class MealServiceMap implements MealService {
     }
 
     @Override
-    @Transactional
-    public void editMealForCurrentUser(Long mealId, String recipeCode, Date date) {
-        User currentUser = this.userService.getCurrentUser();
-        List<Meal> meals = currentUser.getMeals();
-
-        if (meals.stream().anyMatch(meal -> !meal.getId().equals(mealId) && meal.getDate().equals(date))) {
-            throw new BadRequestRuntimeException(Constants.FORM_PLAN_MEAL_DATE_NOT_AVAILABLE);
-        }
-
-        Meal meal = meals.stream().filter(m -> m.getId().equals(mealId)).findAny().orElseThrow(() -> new BadRequestRuntimeException(Constants.MEAL_NOT_FOUND));
-
-        Recipe recipeByCode = this.recipeService.findRecipeByCode(recipeCode);
-
-        meal.setRecipe(recipeByCode);
-        meal.setDate(date);
-
-    }
-
-    @Override
     public Meal getMealByIdForCurrentUser(Long mealId) {
         User currentUser = this.userService.getCurrentUser();
 
         return currentUser.getMeals().stream().filter(meal -> meal.getId().equals(mealId)).findAny().orElseThrow(() -> new BadRequestRuntimeException(Constants.MEAL_NOT_FOUND));
     }
 
+    @Override
+    @Transactional
+    public void editMealForCurrentUser(Long mealId, String recipeCode, Date date) {
+        User currentUser = this.userService.getCurrentUser();
+        List<Meal> meals = currentUser.getMeals();
+
+        if (meals.stream().anyMatch(m -> !m.getId().equals(mealId) && m.getDate().equals(date))) {
+            throw new BadRequestRuntimeException(Constants.FORM_PLAN_MEAL_DATE_NOT_AVAILABLE);
+        }
+
+        Meal meal = meals.stream().filter(m -> m.getId().equals(mealId)).findAny().orElseThrow(() -> new BadRequestRuntimeException(Constants.MEAL_NOT_FOUND));
+        Recipe recipeByCode = this.recipeService.findByCode(recipeCode);
+
+        meal.setRecipe(recipeByCode);
+        meal.setDate(date);
+    }
 
 }

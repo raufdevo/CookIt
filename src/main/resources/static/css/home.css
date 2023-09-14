@@ -1,0 +1,60 @@
+body {
+    background: no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Engravers MT', Serif;
+    font-size: 12pt;
+    color: aliceblue;
+    text-shadow: #151014 4px 4px 4px;
+    font-weight: 300;
+}
+
+a {
+    color: aliceblue;
+    text-decoration: none;
+}
+h1{
+    text-align: center;
+    font-weight: 300;
+    color: aliceblue;
+    text-shadow: #151014 4px 4px 4px;
+    font-size: 35px;
+}
+.topDiv{
+    font-size: 30px;
+}
+
+div {
+    border-radius: 15px;
+    background-color: rgba(83, 96, 91, 0.45);
+    margin: 10px;
+    font-weight: 300;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+footer {
+    position: fixed;
+    height: 50px;
+    bottom: 0px;
+    background-color: rgb(20, 18, 21);
+    left: 0px;
+    right: 0px;
+    margin: 5px 10px;
+    text-align: right;
+    border-radius: 15px;
+}
+
+li {
+    padding: 5px;
+    text-align: justify;
+    list-style: none;
+}

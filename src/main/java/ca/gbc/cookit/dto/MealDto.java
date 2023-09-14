@@ -1,6 +1,8 @@
 package ca.gbc.cookit.dto;
 
+
 public class MealDto {
+
     private Long id;
     private String recipeCode;
     private String formattedDate;

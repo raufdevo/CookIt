@@ -1,15 +1,15 @@
 package ca.gbc.cookit.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+
+
 @Entity
-@Table(name = "ingredient")
+@Table(name = "ingredient_table")
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -30,15 +30,15 @@ public class Ingredient {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
     public BigDecimal getPrice() {
+
         return price;
     }
 
     public void setPrice(BigDecimal price) {
+
         this.price = price;
     }
 }

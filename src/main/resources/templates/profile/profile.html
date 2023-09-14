@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h2 th:text=" @{'Welcome ' + ${name} +'!'}"> </h2>
+<nav class="top-nav">
+    <a href="/">BACK</a><br>
+</nav>
+<div class="container">
+<ul>
+    <li><a href="/profile/recipes">My Recipes</a></li>
+    <li><a href="/profile/fav-recipes">My Favorite Recipes</a></li>
+    <li><a href="/profile/meals">My Meal Plan</a></li>
+    <li><a href="/profile/basket">My Shopping List</a></li>
+    <li><a href="/profile/edit">Edit Profile</a></li>
+</ul>
+</div>
+</body>
+<footer th:footer>
+    <p>&copy; 2023 Rauf Ismayilzada</p>
+</footer>
+<style>
+    a {
+        color: aliceblue;
+        text-decoration: none;
+    }
+    h2 {
+        color: #ffffff;
+        text-align: center;
+        font-weight: 300;
+    }
+    div {
+        border-radius: 15px;
+        background-color: rgba(83, 96, 91, 0.45);
+        margin: 10px;
+        font-weight: 300;
+        font-size: 30px;
+        text-align: center;
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding: 10px 0;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0px;
+        background-color: rgba(20, 18, 21, 0.38);
+        left: 0px;
+        right: 0px;
+        text-align: right;
+        border-radius: 15px;
+        margin: 5px 10px;
+    }
+
+    li {
+        padding: 5px;
+        text-align: justify;
+        list-style: none;
+    }
+
+    body {
+        background: url("https://images.pexels.com/photos/3298637/pexels-photo-3298637.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Engravers MT', Serif;
+        color: aliceblue;
+        text-shadow: #151014 4px 4px 4px;
+        -webkit-font-smoothing: antialiased;
+    }
+</style>
+</html>
