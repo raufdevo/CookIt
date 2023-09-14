@@ -2,7 +2,7 @@
  "CookIt app" using Spring Boot, Java version 17, and the following technologies: Spring DevTools, Spring Web, Thymeleaf
 for the view layer, Spring Data JPA, Utilized H2 Database for the embedded database and implemented an MVC design pattern with
 controllers, service, and repository layers.
-![image](https://github.com/raufdevo/CookIt/assets/98706594/d9055b05-1db9-44d2-8343-f74879e46989)
+
 
 ![image](https://github.com/raufdevo/CookIt/assets/98706594/e09bf079-0639-456c-a59d-b6e7f4b05d04)
 ![image](https://github.com/raufdevo/CookIt/assets/98706594/33642d33-5f6d-47d4-95e4-21b9f40d901b)
