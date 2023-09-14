@@ -1,4 +1,5 @@
-# CookIt App by Rauf
+#CookIt App by Rauf
+ 
  "CookIt app" using Spring Boot, Java version 17, and the following technologies: Spring DevTools, Spring Web, Thymeleaf
 for the view layer, Spring Data JPA, Utilized H2 Database for the embedded database and implemented an MVC design pattern with
 controllers, service, and repository layers.
