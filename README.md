@@ -22,20 +22,32 @@ Repository Layer: Manages the data persistence and retrieval using Spring Data J
 View Layer: Utilizes Thymeleaf for rendering dynamic web pages.
 
 ## Screenshots
-![welcome](https://github.com/raufdevo/CookIt/assets/98706594/0562f84c-3594-4566-9f99-bc453842563b)
+![welcome](https://github.com/raufdevo/CookIt/assets/98706594/a8e5589d-5770-450b-bb06-7ed4af39e007)
 
-![registration](https://github.com/raufdevo/CookIt/assets/98706594/c79b5e19-7b8b-4bb0-9a14-f600bb5119ce)
+![registration](https://github.com/raufdevo/CookIt/assets/98706594/708a00d8-1df5-4c6d-8b16-677fcc34055c)
 
-![login](https://github.com/raufdevo/CookIt/assets/98706594/c924e4b3-8db1-414a-b237-2d3f4d55225a)
 
-![homepage](https://github.com/raufdevo/CookIt/assets/98706594/958dc728-7b18-4174-9644-21b14d581705)
+![login](https://github.com/raufdevo/CookIt/assets/98706594/cee483c4-9e66-471e-aaf5-306443df57d8)
 
-![profile](https://github.com/raufdevo/CookIt/assets/98706594/4adae4a3-e505-4a74-9c5c-cb4c1c9cc7bb)
 
-![add_recipes](https://github.com/raufdevo/CookIt/assets/98706594/451cdb0b-e8d6-4f4f-ba76-49edc2ee8e4f)
+![homepage](https://github.com/raufdevo/CookIt/assets/98706594/602c709b-3adb-4430-8433-729ebe9f54af)
 
-![my_recipes](https://github.com/raufdevo/CookIt/assets/98706594/58321272-6f7f-48c4-816e-fd83631f5893)
 
-![add_ingredient](https://github.com/raufdevo/CookIt/assets/98706594/4bd89e69-4e74-4cba-8e01-fc98ee3320b7)
+![profile](https://github.com/raufdevo/CookIt/assets/98706594/45a83925-f9ee-4517-9d68-95f70bfb2ee5)
 
-![meal_plan](https://github.com/raufdevo/CookIt/assets/98706594/f3fef680-5eda-401f-b8cd-4a2cf7617d9c)
+
+![add_recipes](https://github.com/raufdevo/CookIt/assets/98706594/9f85afe7-8e23-4d44-bb77-0554cbc26f73)
+
+
+![my_recipes](https://github.com/raufdevo/CookIt/assets/98706594/62702e6b-1811-4efe-86c9-78e55ef81687)
+
+
+![add_ingredient](https://github.com/raufdevo/CookIt/assets/98706594/590f6c2f-cf02-4334-a2c3-2095b8989f98)
+
+
+![meal_plan](https://github.com/raufdevo/CookIt/assets/98706594/9b66d49d-3390-4b84-930a-6cc4c4cc7574)
+
+
+![password_recovery](https://github.com/raufdevo/CookIt/assets/98706594/ef21c0af-b559-46d6-a11d-e720ffe97e75)
+
+
