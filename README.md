@@ -48,6 +48,5 @@ View Layer: Utilizes Thymeleaf for rendering dynamic web pages.
 ![meal_plan](https://github.com/raufdevo/CookIt/assets/98706594/9b66d49d-3390-4b84-930a-6cc4c4cc7574)
 
 
-![password_recovery](https://github.com/raufdevo/CookIt/assets/98706594/ef21c0af-b559-46d6-a11d-e720ffe97e75)
-
+![password_recovery](https://github.com/raufdevo/CookIt/assets/98706594/001728e1-36b1-49b0-a82f-9d595b657d93)
 
